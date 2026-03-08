@@ -1,0 +1,32 @@
+# ===========================
+# .NET / ABP Backend
+# ===========================
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.log
+appsettings.Production.json
+
+# ===========================
+# Angular Frontend
+# ===========================
+node_modules/
+dist/
+.angular/
+*.js.map
+
+# ===========================
+# OS
+# ===========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===========================
+# IDE
+# ===========================
+.vscode/
+.idea/
+*.swp
