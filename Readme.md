@@ -182,7 +182,8 @@ frontend/personel-yonetim/
 
 ## 📸 Screenshots
 
-> Login sayfası ve personel yönetim ekranı
+![Login](docs/loginss.png)
+![Personel](docs/personelss.png)
 
 ---
 
