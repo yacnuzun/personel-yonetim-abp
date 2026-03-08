@@ -17,7 +17,7 @@ public class PersonelYonetimDbContextFactory : IDesignTimeDbContextFactory<Perso
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<PersonelYonetimDbContext>()
-            .UseSqlServer(configuration.GetConnectionString("Default"));
+            .UseNpgsql(configuration.GetConnectionString("Default"));
 
         return new PersonelYonetimDbContext(builder.Options);
     }

@@ -28,6 +28,7 @@ public class Program
         try
         {
             Log.Information("Starting PersonelYonetim.HttpApi.Host.");
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             var builder = WebApplication.CreateBuilder(args);
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
