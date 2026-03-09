@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: personel-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: PersonelYonetim
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - personel-network
+
+  backend:
+    build:
+      context: ./backend/aspnet-core
+      dockerfile: Dockerfile
+    container_name: personel-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__Default=Host=postgres;Port=5432;Database=PersonelYonetim;Username=postgres;Password=postgres123
+    ports:
+      - "44356:8080"
+    depends_on:
+      - postgres
+    networks:
+      - personel-network
+
+volumes:
+  postgres_data:
+
+networks:
+  personel-network:
+    driver: bridge
