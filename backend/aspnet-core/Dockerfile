@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y nodejs npm
 
 # ABP CLI yükle
-RUN dotnet tool install -g Volo.Abp.Cli
+RUN dotnet tool install -g volo.abp.cli --version 8.3.0
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 COPY common.props .
