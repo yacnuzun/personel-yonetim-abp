@@ -111,6 +111,12 @@ public class PersonelYonetimHttpApiHostModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
+        var domainSharedPath = Path.Combine(hostingEnvironment.ContentRootPath,
+            $"..{Path.DirectorySeparatorChar}PersonelYonetim.Domain.Shared");
+
+        if (!Directory.Exists(domainSharedPath)) return;
+
+
         if (hostingEnvironment.IsDevelopment())
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
