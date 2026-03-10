@@ -1,0 +1,136 @@
+<div class="ana-kapsayici">
+
+  <div class="header">
+  <div class="header-sol">
+    <h1>Personel Yonetim Sistemi</h1>
+    <span>DevExtreme + Angular 21 + ABP</span>
+  </div>
+  <div class="header-sag">
+    <dx-button
+      text="+ Yeni Personel"
+      type="default"
+      stylingMode="contained"
+      (onClick)="yeniPersonelEkle()">
+    </dx-button>
+    <dx-button
+      text="Cikis Yap"
+      type="danger"
+      stylingMode="outlined"
+      (onClick)="logout()">
+    </dx-button>
+  </div>
+</div>
+
+  <div class="kartlar">
+    <div class="kart mavi">
+      <div class="kart-sayi">{{ toplamPersonel }}</div>
+      <div class="kart-etiket">Toplam Personel</div>
+    </div>
+    <div class="kart yesil">
+      <div class="kart-sayi">{{ aktifPersonel }}</div>
+      <div class="kart-etiket">Aktif Personel</div>
+    </div>
+    <div class="kart turuncu">
+      <div class="kart-sayi">{{ ortalamaMailas }} TL</div>
+      <div class="kart-etiket">Ortalama Maas</div>
+    </div>
+    <div class="kart mor">
+      <div class="kart-sayi">{{ departmanlar.length }}</div>
+      <div class="kart-etiket">Departman</div>
+    </div>
+  </div>
+
+  <div class="icerik">
+
+    <div class="sol-panel">
+      <div class="panel-baslik">Personel Listesi</div>
+      <dx-data-grid
+        [dataSource]="personelListesi"
+        [showBorders]="true"
+        [rowAlternationEnabled]="true"
+        [hoverStateEnabled]="true"
+        (onRowDblClick)="personelDuzenle($event)"
+        (onRowRemoved)="personelSil($event)"
+        keyExpr="id">
+
+        <dxo-search-panel [visible]="true" placeholder="Ara..."></dxo-search-panel>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+        <dxo-paging [pageSize]="7"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 7, 10]"></dxo-pager>
+        <dxo-editing mode="row" [allowDeleting]="true"></dxo-editing>
+        <dxo-export [enabled]="true" fileName="personel-listesi"></dxo-export>
+
+        <dxi-column dataField="name" caption="Ad"></dxi-column>
+        <dxi-column dataField="surname" caption="Soyad"></dxi-column>
+        <dxi-column dataField="department" caption="Departman"></dxi-column>
+        <dxi-column dataField="position" caption="Pozisyon"></dxi-column>
+        <dxi-column dataField="salary" caption="Maas" [format]="{ type: 'fixedPoint', precision: 0 }"></dxi-column>
+        <dxi-column dataField="status" caption="Durum"></dxi-column>
+        <dxi-column dataField="hireDate" caption="Giris Tarihi" dataType="date"></dxi-column>
+
+        <dxo-summary>
+          <dxi-total-item column="name" summaryType="count" displayFormat="Toplam: {0}"></dxi-total-item>
+          <dxi-total-item column="salary" summaryType="avg" displayFormat="Ort: {0}" [valueFormat]="{ type: 'fixedPoint', precision: 0 }"></dxi-total-item>
+        </dxo-summary>
+
+      </dx-data-grid>
+    </div>
+
+    <div class="sag-panel">
+      <div class="panel-baslik">Departman Dagilimi</div>
+      <dx-chart [dataSource]="departmanVerisi">
+        <dxi-series
+          argumentField="departman"
+          valueField="sayi"
+          type="bar"
+          color="#4f86f7"
+          name="Personel Sayisi">
+        </dxi-series>
+        <dxo-legend [visible]="false"></dxo-legend>
+        <dxo-tooltip [enabled]="true"></dxo-tooltip>
+      </dx-chart>
+    </div>
+
+  </div>
+
+  <dx-popup
+    [visible]="popupVisible"
+    [title]="yeniKayitMi ? 'Yeni Personel Ekle' : 'Personel Duzenle'"
+    [width]="500"
+    [height]="480"
+    [showCloseButton]="true"
+    (onHidden)="iptal()">
+
+    <div *dxTemplate="let data of 'content'">
+      <dx-form [formData]="secilenPersonel" labelLocation="top">
+        <dxi-item dataField="name" editorType="dxTextBox" [label]="{ text: 'Ad' }"></dxi-item>
+        <dxi-item dataField="surname" editorType="dxTextBox" [label]="{ text: 'Soyad' }"></dxi-item>
+        <dxi-item dataField="department" editorType="dxSelectBox"
+          [label]="{ text: 'Departman' }"
+          [editorOptions]="{ dataSource: departmanlar }">
+        </dxi-item>
+        <dxi-item dataField="position" editorType="dxTextBox" [label]="{ text: 'Pozisyon' }"></dxi-item>
+        <dxi-item dataField="salary" editorType="dxNumberBox"
+          [label]="{ text: 'Maas (TL)' }"
+          [editorOptions]="{ format: '#,##0', min: 0 }">
+        </dxi-item>
+        <dxi-item dataField="status" editorType="dxSelectBox"
+          [label]="{ text: 'Durum' }"
+          [editorOptions]="{ dataSource: durumlar }">
+        </dxi-item>
+        <dxi-item dataField="hireDate" editorType="dxDateBox"
+          [label]="{ text: 'Ise Giris Tarihi' }"
+          [editorOptions]="{ displayFormat: 'dd/MM/yyyy' }">
+        </dxi-item>
+      </dx-form>
+
+      <div class="popup-butonlar">
+        <dx-button text="Iptal" stylingMode="outlined" (onClick)="iptal()"></dx-button>
+        <dx-button text="Kaydet" type="default" stylingMode="contained" (onClick)="kaydet()"></dx-button>
+      </div>
+    </div>
+
+  </dx-popup>
+
+</div>

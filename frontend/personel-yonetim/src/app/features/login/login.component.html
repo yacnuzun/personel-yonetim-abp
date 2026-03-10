@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="login-box">
+
+    <div class="login-header">
+      <h1>Personel Yönetim</h1>
+      <p>Devam etmek için giriş yapın</p>
+    </div>
+
+    <dx-form [formData]="formData" labelLocation="top">
+      <dxi-item
+        dataField="username"
+        editorType="dxTextBox"
+        [label]="{ text: 'Kullanıcı Adı' }"
+        [editorOptions]="{ placeholder: 'admin' }">
+      </dxi-item>
+      <dxi-item
+        dataField="password"
+        editorType="dxTextBox"
+        [label]="{ text: 'Şifre' }"
+        [editorOptions]="{ mode: 'password', placeholder: '••••••••' }">
+      </dxi-item>
+    </dx-form>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <dx-button
+      text="Giriş Yap"
+      type="default"
+      stylingMode="contained"
+      [disabled]="loading"
+      (onClick)="onLogin()"
+      width="100%">
+    </dx-button>
+
+    <div class="login-footer">
+      <p>Varsayılan: <strong>admin</strong> / <strong>1q2w3E*</strong></p>
+    </div>
+
+  </div>
+</div>
