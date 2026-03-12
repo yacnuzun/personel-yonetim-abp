@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
+  production: true,
   apiUrl: 'https://personel-yonetim-abp-production.up.railway.app'
 };
