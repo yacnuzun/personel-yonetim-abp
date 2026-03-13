@@ -119,7 +119,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             OpenIddictConstants.GrantTypes.RefreshToken
                 },
                 scopes: commonScopes,
-                clientUri: "http://localhost:4200,https://personel-yonetim-abp.vercel.app"
+                clientUri: "http://localhost:4200,https://personel-yonetim-4inrwx1a9-yalcins-projects-de9b11f7.vercel.app/"
             );
         }
     }
